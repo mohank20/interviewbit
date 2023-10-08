@@ -1,0 +1,9 @@
+int Solution::adjacent(vector<vector<int> > &A) {
+    vector<int> row1(A[0].size()+1,0),row2(A[0].size()+1,0);
+    row1[1]=A[0][0]; row2[1]=A[1][0];
+    for(int i=2;i<=A[0].size();i++){
+        row1[i]=max({row1[i-1],row2[i-1],A[0][i-1]+row1[i-2],A[0][i-1]+row2[i-2]});
+        row2[i]=max({row2[i-1],row2[i-1],A[1][i-1]+row2[i-2],A[1][i-1]+row1[i-2]});
+    }
+    return max(row1[A[0].size()],row2[A[0].size()]);
+}
