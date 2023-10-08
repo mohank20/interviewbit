@@ -1,0 +1,23 @@
+struct node{
+    int items;
+    int weight;
+} dp[105][10005];
+
+int Solution::solve(const vector<int> &A) { int sum=0,n=A.size();
+    for(auto x : A) sum+=x; sum/=2;
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=sum;j++){
+            if(i==0||j==0) {dp[i][j]={0,0}; continue;}
+            int prev_wt=dp[i-1][j].weight,prev_item=dp[i-1][j].items; 
+            if(j>=A[i-1]){
+                int cur_wt=dp[i-1][j-A[i-1]].weight+A[i-1],cur_item=1+dp[i-1][j-A[i-1]].items;
+                if(cur_wt>prev_wt || cur_wt==prev_wt && cur_item<prev_item){
+                    dp[i][j]={cur_item,cur_wt};
+                }
+                else dp[i][j]=dp[i-1][j];
+            } 
+            else dp[i][j]=dp[i-1][j];
+        }
+    }
+    return dp[n][sum].items;
+}
